@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026约克马年迎春晚会 - 筹备手册</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400&display=swap');
+        
+        :root {
+            --warm-red: #7c1212;
+            --gold-leaf: #d4af37;
+            --paper-dark: #1a0b0b;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--paper-dark);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(124, 18, 18, 0.15) 0%, transparent 80%),
+                url('https://www.transparenttextures.com/patterns/dark-leather.png');
+            color: #f3e5ab;
+        }
+
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+
+        .gala-card {
+            background: rgba(45, 10, 10, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 2px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .gala-card::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(212, 175, 55, 0.05);
+            pointer-events: none;
+        }
+
+        .ornament-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-leaf), transparent);
+            margin: 1rem 0;
+            opacity: 0.4;
+        }
+
+        .stamp-check {
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 1px solid var(--gold-leaf);
+            background: rgba(212, 175, 55, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .stamp-check:checked {
+            background: #b91c1c;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .stamp-check:checked::after {
+            content: "春";
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.75rem;
+            color: var(--gold-leaf);
+            font-weight: bold;
+        }
+
+        .scroll-progress {
+            background: rgba(212, 175, 55, 0.1);
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .scroll-fill {
+            background: linear-gradient(90deg, #991b1b, var(--gold-leaf));
+            height: 100%;
+            transition: width 1s ease;
+        }
+
+        .host-pill {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 2px 10px;
+            font-size: 0.85rem;
+        }
+
+        /* 自定义滚动条 */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--gold-leaf);
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 lg:p-10">
+
+    <header class="max-w-6xl mx-auto text-center mb-12">
+        <div class="inline-block relative px-12 py-4">
+            <span class="absolute left-0 top-1/2 -translate-y-1/2 text-3xl opacity-40">🏮</span>
+            <span class="absolute right-0 top-1/2 -translate-y-1/2 text-3xl opacity-40">🏮</span>
+            
+            <h1 class="text-4xl md:text-5xl font-bold serif-font text-amber-200 tracking-widest mb-2">
+                2026 约克马年迎春晚会
+            </h1>
+            <p class="text-amber-500/80 tracking-[0.5em] text-sm uppercase">手册 · 联排实操版</p>
+            <div class="ornament-line"></div>
+        </div>
+        
+        <div class="flex justify-center gap-12 mt-4 text-amber-100/60 text-xs serif-font">
+            <div class="flex flex-col text-nowrap">
+                <span>演出时序</span>
+                <span class="text-lg text-amber-200 mt-1">155 Mins</span>
+            </div>
+            <div class="flex flex-col border-x border-amber-900/50 px-12 text-nowrap">
+                <span>时令 · 刻漏</span>
+                <span id="current-time" class="text-lg text-amber-200 mt-1 font-mono">00:00:00</span>
+            </div>
+            <div class="flex flex-col text-nowrap">
+                <span>晚会主题</span>
+                <span class="text-lg text-amber-200 mt-1">古仪 · 长风 · 人间 · 新程</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- 左侧：同行者 (人员分工矩阵) -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="gala-card p-6">
+                <h2 class="serif-font text-xl text-amber-400 mb-6 flex items-center gap-3">
+                    <span class="text-sm">◆</span> 联排核心矩阵
+                </h2>
+                
+                <div class="space-y-6 max-h-[65vh] overflow-y-auto pr-2 custom-scrollbar">
+                    <!-- 总导演 -->
+                    <div class="border-b border-amber-900/30 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">弋睿</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">总导演</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">全局统筹，监督主持人走台及情景剧磨合效果。</p>
+                    </div>
+
+                    <!-- 副总导演 -->
+                    <div class="border-b border-amber-900/30 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">汪奕廷</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">副总导演</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">辅助走台监督；负责 18:00 设备总 Check 及 18:55 全场内通检查。</p>
+                    </div>
+
+                    <!-- 舞美导演 -->
+                    <div class="border-b border-amber-900/30 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">郝雨萌</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">舞美导演</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">掌管灯光全流程调试，确演艺视觉氛围高度适配。</p>
+                    </div>
+
+                    <!-- 其他核心岗位 -->
+                    <div class="border-b border-amber-900/30 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">陈昊</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">节点统筹</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">导播处节点同步，导演指令唯一传递口。</p>
+                    </div>
+
+                    <div class="border-b border-amber-900/30 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">孙佳皓 & 李润琦</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">音频后端</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">声音谐美掌管，伴奏及音效精准呈现。</p>
+                    </div>
+
+                    <div class="border-b border-amber-900/30 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">徐瑞柯 & 傅弈飞</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">舞台调度</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">舞台检录、道具调度及话筒极速流转。</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold serif-font">邓熙舜</span>
+                            <span class="text-[10px] text-amber-600 border border-amber-900 px-2 py-0.5">催场集结</span>
+                        </div>
+                        <p class="text-xs text-amber-100/50 leading-relaxed">演员二楼集结引导，带队下楼交接工作。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 主持人阵容 -->
+            <div class="gala-card p-4">
+                <p class="text-[10px] text-amber-600 serif-font mb-3 tracking-widest">礼宾主持人阵容</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="host-pill">孙子轩</span>
+                    <span class="host-pill">方彦威</span>
+                    <span class="host-pill">汪子鑫</span>
+                    <span class="host-pill">郑鸿宇</span>
+                    <span class="host-pill">吴瑞珂</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：春之序章 (准备流程) -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="gala-card p-8">
+                <div class="flex justify-between items-end mb-8">
+                    <h2 class="serif-font text-2xl text-amber-400">春之序章 <span class="text-xs font-normal text-amber-700 ml-2 tracking-widest">PREPARATION</span></h2>
+                    <div class="w-32">
+                        <p class="text-[10px] text-amber-700 text-right mb-1">筹备进度</p>
+                        <div class="scroll-progress">
+                            <div id="progress-bar" class="scroll-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- 17:00 -->
+                    <div class="flex gap-6 group">
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-bold serif-font text-amber-600">17:00</span>
+                            <div class="w-px h-full bg-amber-900/30 my-2"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold mb-3 text-amber-200">全员入场 · 器物初整</h3>
+                            <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer hover:bg-amber-900/10 transition-colors">
+                                <input type="checkbox" class="stamp-check">
+                                <span class="text-xs text-amber-100/60">音响组调试、导播组组装设备完成</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 17:00 - 18:00 -->
+                    <div class="flex gap-6 group">
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-bold serif-font text-amber-600">17:00-18:00</span>
+                            <div class="w-px h-full bg-amber-900/30 my-2"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold mb-3 text-amber-200">导演协作 · 舞美过场</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">弋睿：主持走台及情景剧监督</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">郝雨萌：灯光调试与舞台装饰</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">汪奕廷：辅助导演监督走台</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">道具组：舞台装饰、贴地胶</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 18:00 - 19:00 -->
+                    <div class="flex gap-6 group">
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-bold serif-font text-amber-600">18:00-19:00</span>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold mb-3 text-amber-200">全项 Check · 临战就位</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">18:00 所有设备调试情况总 Check</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">18:30 - 18:45 演员晚餐时间</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                    <input type="checkbox" class="stamp-check">
+                                    <span class="text-xs text-amber-100/60">18:50 对讲机通话最后测试</span>
+                                </label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                        <input type="checkbox" class="stamp-check">
+                                        <span class="text-xs text-amber-100/60">18:55 全场内通检查</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-amber-950/20 border border-amber-900/20 cursor-pointer">
+                                        <input type="checkbox" class="stamp-check">
+                                        <span class="text-xs text-amber-100/60">18:55 演员就位 · 侧台集结</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 暖心提醒 (应急) -->
+            <div class="gala-card p-5 border-amber-600/20">
+                <div class="flex items-center gap-4">
+                    <div class="text-2xl opacity-50 italic serif-font text-amber-700">备</div>
+                    <div class="h-10 w-px bg-amber-900/40"></div>
+                    <div class="text-[11px] text-amber-100/40 leading-relaxed">
+                        <strong class="text-amber-500">话筒应急：</strong> 傅弈飞备有万用 HH 麦，遇失灵即刻递送。<br>
+                        <strong class="text-amber-500">流程应急：</strong> 汪奕廷通过内通下令，李润琦开启 BGM 垫乐。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="max-w-6xl mx-auto mt-12 mb-8 text-center">
+        <div class="ornament-line"></div>
+        <p class="text-[10px] text-amber-900 serif-font tracking-[0.3em] uppercase">
+            York Chinese New Year Gala 2026 · Exec Manual
+        </p>
+    </footer>
+
+    <script>
+        // 实时时钟
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('current-time').innerText = `${h}:${m}:${s}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 进度计算
+        const checks = document.querySelectorAll('.stamp-check');
+        const bar = document.getElementById('progress-bar');
+        function calc() {
+            const total = checks.length;
+            const done = document.querySelectorAll('.stamp-check:checked').length;
+            bar.style.width = total === 0 ? '0%' : (done / total * 100) + '%';
+        }
+        checks.forEach(c => c.addEventListener('change', calc));
+        calc();
+    </script>
+</body>
+</html>
